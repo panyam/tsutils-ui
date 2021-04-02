@@ -29,9 +29,9 @@
   ],
   "scripts": {
     "clean": "rm -Rf dist && jest --clearCache && rm -rf static/dist",
+    "build": "npm run  clean && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
     "test": "jest --coverage --runInBand",
     "start": "webpack-dev-server --mode=development",
-    "build": "tsc",
     "lint": "eslint './src' --quiet --ext .ts --resolve-plugins-relative-to .",
     "lintfix": "eslint 'src/**/*.ts' --quiet --fix --resolve-plugins-relative-to .",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
