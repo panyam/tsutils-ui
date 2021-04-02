@@ -28,7 +28,7 @@
     "test"
   ],
   "scripts": {
-    "clean": "rm -Rf dist && jest --clearCache && rm -rf static/dist",
+    "clean": "rm -Rf lib && jest --clearCache && rm -rf static/lib",
     "build": "npm run  clean && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
     "test": "jest --coverage --runInBand",
     "start": "webpack-dev-server --mode=development",
@@ -38,7 +38,7 @@
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
-    "preversion": "npm run lint",
+    "preversion": "npm run build && npm run lint",
     "version": "npm run lintfix && git add -A src",
     "postversion": "git push && git push --tags"
   },
