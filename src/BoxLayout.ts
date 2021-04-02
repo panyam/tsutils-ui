@@ -1,5 +1,4 @@
-import { MAX_INT } from "../types";
-import { ArrayTimesN } from "../utils/misc";
+import * as TSU from "@panyam/tsutils";
 import { Size } from "./core";
 import { View } from "./View";
 import { DefaultLayoutManager } from "./Layouts";
@@ -58,8 +57,8 @@ export class BoxLayout extends DefaultLayoutManager {
     this.validateRequests();
     const size = new Size(this.xTotal.minimum, this.yTotal.minimum);
 
-    size.width = Math.min(size.width, MAX_INT);
-    size.height = Math.min(size.height, MAX_INT);
+    size.width = Math.min(size.width, TSU.Constants.MAX_INT);
+    size.height = Math.min(size.height, TSU.Constants.MAX_INT);
     return size;
   }
 
@@ -68,8 +67,8 @@ export class BoxLayout extends DefaultLayoutManager {
     this.validateRequests();
     const size = new Size(this.xTotal.maximum, this.yTotal.maximum);
 
-    size.width = Math.min(size.width, MAX_INT);
-    size.height = Math.min(size.height, MAX_INT);
+    size.width = Math.min(size.width, TSU.Constants.MAX_INT);
+    size.height = Math.min(size.height, TSU.Constants.MAX_INT);
     return size;
   }
 
@@ -81,8 +80,8 @@ export class BoxLayout extends DefaultLayoutManager {
     this.validateRequests();
     const size = new Size(this.xTotal.preferred, this.yTotal.preferred);
 
-    size.width = Math.min(size.width, MAX_INT);
-    size.height = Math.min(size.height, MAX_INT);
+    size.width = Math.min(size.width, TSU.Constants.MAX_INT);
+    size.height = Math.min(size.height, TSU.Constants.MAX_INT);
     return size;
   }
 
@@ -104,10 +103,10 @@ export class BoxLayout extends DefaultLayoutManager {
   layoutChildViews(target: View): void {
     this.validateContainer(target);
     const nChildren = target.childViewCount;
-    const xOffsets: number[] = ArrayTimesN(nChildren, 0);
-    const xSpans: number[] = ArrayTimesN(nChildren, 0);
-    const yOffsets: number[] = ArrayTimesN(nChildren, 0);
-    const ySpans: number[] = ArrayTimesN(nChildren, 0);
+    const xOffsets: number[] = TSU.Misc.ArrayTimesN(nChildren, 0);
+    const xSpans: number[] = TSU.Misc.ArrayTimesN(nChildren, 0);
+    const yOffsets: number[] = TSU.Misc.ArrayTimesN(nChildren, 0);
+    const ySpans: number[] = TSU.Misc.ArrayTimesN(nChildren, 0);
 
     const alloc = target.size;
 
@@ -129,7 +128,12 @@ export class BoxLayout extends DefaultLayoutManager {
     // flush changes to the container
     for (let i = 0; i < nChildren; i++) {
       const c = target.childAtIndex(i);
-      c.setBounds(Math.min(xOffsets[i], MAX_INT), Math.min(yOffsets[i], MAX_INT), xSpans[i], ySpans[i]);
+      c.setBounds(
+        Math.min(xOffsets[i], TSU.Constants.MAX_INT),
+        Math.min(yOffsets[i], TSU.Constants.MAX_INT),
+        xSpans[i],
+        ySpans[i],
+      );
     }
   }
 
@@ -144,8 +148,8 @@ export class BoxLayout extends DefaultLayoutManager {
       // The requests have been invalidated... recalculate
       // the request information.
       const n = this.target.childViewCount;
-      this.xChildren = ArrayTimesN(n, null as any);
-      this.yChildren = ArrayTimesN(n, null as any);
+      this.xChildren = TSU.Misc.ArrayTimesN(n, null as any);
+      this.yChildren = TSU.Misc.ArrayTimesN(n, null as any);
       for (let i = 0; i < n; i++) {
         const c = this.target.childAtIndex(i);
         if (!c.isVisible) {

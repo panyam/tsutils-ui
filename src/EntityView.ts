@@ -1,15 +1,12 @@
-import { getAttr, setAttr, createNode } from "../utils/dom";
-import { MAX_INT, Nullable } from "../types";
-import { LayoutManager } from "./Layouts";
-import { Rect, Size, Insets } from "./core";
+import * as TSU from "@panyam/tsutils";
 import { View, ViewParams } from "./View";
 
 declare const ResizeObserver: any;
 
 export class EntityView<EntityType = any> extends View {
-  protected _entity: Nullable<EntityType>;
+  protected _entity: TSU.Nullable<EntityType>;
 
-  constructor(rootElement: Element, entity: Nullable<EntityType> = null, config?: ViewParams) {
+  constructor(rootElement: Element, entity: TSU.Nullable<EntityType> = null, config?: ViewParams) {
     super(rootElement, config);
     this._entity = entity;
   }
@@ -23,11 +20,11 @@ export class EntityView<EntityType = any> extends View {
     this.updateViewsFromEntity();
   }
 
-  get entity(): Nullable<EntityType> {
+  get entity(): TSU.Nullable<EntityType> {
     return this._entity;
   }
 
-  set entity(entity: Nullable<EntityType>) {
+  set entity(entity: TSU.Nullable<EntityType>) {
     if (entity != this._entity && this.isEntityValid(entity)) {
       const prev = this._entity;
       this._entity = entity;
@@ -39,7 +36,7 @@ export class EntityView<EntityType = any> extends View {
    * This method is called to update the entity based on what has
    * been input/entered into the views.  By default it does nothing.
    */
-  protected updateEntityFromViews(): Nullable<EntityType> {
+  protected updateEntityFromViews(): TSU.Nullable<EntityType> {
     return this._entity;
   }
 
@@ -50,11 +47,11 @@ export class EntityView<EntityType = any> extends View {
    * entity is already set in this View.  This will help the View
    * reconcile any diffs.
    */
-  protected updateViewsFromEntity(_previous: Nullable<EntityType> = null): void {
+  protected updateViewsFromEntity(_previous: TSU.Nullable<EntityType> = null): void {
     // Do nothing - implement this to update view state from entity
   }
 
-  protected isEntityValid(_entity: Nullable<EntityType>): boolean {
+  protected isEntityValid(_entity: TSU.Nullable<EntityType>): boolean {
     return true;
   }
 

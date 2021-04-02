@@ -1,4 +1,4 @@
-import { Nullable } from "../types";
+import * as TSU from "@panyam/tsutils";
 import { Size } from "./core";
 import { View } from "./View";
 import { DefaultLayoutManager } from "./Layouts";
@@ -130,29 +130,29 @@ export class BorderLayoutParams {
  */
 export function applyBorderLayout(parent: HTMLDivElement, params: BorderLayoutParams): void {
   const children = parent.querySelectorAll("[borderLayoutConstraint]");
-  const northHTMLElement: Nullable<HTMLElement> = null;
-  const eastHTMLElement: Nullable<HTMLElement> = null;
-  const westHTMLElement: Nullable<HTMLElement> = null;
-  const southHTMLElement: Nullable<HTMLElement> = null;
-  const centerHTMLElement: Nullable<HTMLElement> = null;
+  const northHTMLElement: TSU.Nullable<HTMLElement> = null;
+  const eastHTMLElement: TSU.Nullable<HTMLElement> = null;
+  const westHTMLElement: TSU.Nullable<HTMLElement> = null;
+  const southHTMLElement: TSU.Nullable<HTMLElement> = null;
+  const centerHTMLElement: TSU.Nullable<HTMLElement> = null;
 
-  const firstLine: Nullable<HTMLElement> = null;
-  const lastLine: Nullable<HTMLElement> = null;
-  const firstItem: Nullable<HTMLElement> = null;
-  const lastItem: Nullable<HTMLElement> = null;
+  const firstLine: TSU.Nullable<HTMLElement> = null;
+  const lastLine: TSU.Nullable<HTMLElement> = null;
+  const firstItem: TSU.Nullable<HTMLElement> = null;
+  const lastItem: TSU.Nullable<HTMLElement> = null;
 }
 
 export class BorderLayout extends DefaultLayoutManager {
-  protected northView: Nullable<View> = null;
-  protected eastView: Nullable<View> = null;
-  protected westView: Nullable<View> = null;
-  protected southView: Nullable<View> = null;
-  protected centerView: Nullable<View> = null;
+  protected northView: TSU.Nullable<View> = null;
+  protected eastView: TSU.Nullable<View> = null;
+  protected westView: TSU.Nullable<View> = null;
+  protected southView: TSU.Nullable<View> = null;
+  protected centerView: TSU.Nullable<View> = null;
 
-  protected firstLine: Nullable<View> = null;
-  protected lastLine: Nullable<View> = null;
-  protected firstItem: Nullable<View> = null;
-  protected lastItem: Nullable<View> = null;
+  protected firstLine: TSU.Nullable<View> = null;
+  protected lastLine: TSU.Nullable<View> = null;
+  protected firstItem: TSU.Nullable<View> = null;
+  protected lastItem: TSU.Nullable<View> = null;
 
   /**
    * The layout manager allows a seperation of
@@ -263,7 +263,7 @@ export class BorderLayout extends DefaultLayoutManager {
     const dim = new Size(0, 0);
 
     const ltr = this.leftToRight;
-    let c: Nullable<View> = null;
+    let c: TSU.Nullable<View> = null;
 
     if ((c = this.getChild(BorderLayoutConstraint.EAST, ltr)) != null) {
       const d = c.minSize;
@@ -301,7 +301,7 @@ export class BorderLayout extends DefaultLayoutManager {
     const dim = new Size(0, 0);
 
     const ltr = this.leftToRight;
-    let c: Nullable<View> = null;
+    let c: TSU.Nullable<View> = null;
 
     if ((c = this.getChild(BorderLayoutConstraint.EAST, ltr)) != null) {
       const d = c.prefSize;
@@ -342,7 +342,7 @@ export class BorderLayout extends DefaultLayoutManager {
     let right = parentView.width;
 
     const ltr = this.leftToRight;
-    let c: Nullable<View> = null;
+    let c: TSU.Nullable<View> = null;
 
     if ((c = this.getChild(BorderLayoutConstraint.NORTH, ltr)) != null) {
       c.setSize(right - left, c.height);
@@ -376,8 +376,8 @@ export class BorderLayout extends DefaultLayoutManager {
   /**
    * Get the component that corresponds to the given constraint location
    */
-  private getChild(key: string, ltr = true): Nullable<View> {
-    let result: Nullable<View> = null;
+  private getChild(key: string, ltr = true): TSU.Nullable<View> {
+    let result: TSU.Nullable<View> = null;
     if (key == BorderLayoutConstraint.NORTH) {
       result = this.firstLine != null ? this.firstLine : this.northView;
     } else if (key == BorderLayoutConstraint.SOUTH) {

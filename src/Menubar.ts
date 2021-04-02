@@ -1,7 +1,4 @@
-import { Nullable, StringMap } from "../types";
-import { assert } from "../utils/misc";
-import { createNode } from "../utils/dom";
-import { EventHub, TEvent } from "../comms/events";
+import * as TSU from "@panyam/tsutils";
 
 export enum EventTypes {
   MENU_WILL_CLOSE = "MENU_WILL_CLOSE",
@@ -22,7 +19,7 @@ export class MenuItem {
   readonly id: string;
   readonly type: MenuItemType;
   readonly elem: HTMLElement;
-  parent: Nullable<MenuItem>;
+  parent: TSU.Nullable<MenuItem>;
   key: string;
   hidden = false;
 
@@ -32,9 +29,15 @@ export class MenuItem {
 
   // Element to hold children (for menuparents only)
   children: MenuItem[] = [];
-  childrenElem: Nullable<HTMLElement> = null;
+  childrenElem: TSU.Nullable<HTMLElement> = null;
 
-  constructor(type: MenuItemType, id: string, elem: HTMLElement, menubar: Menubar, parent: Nullable<MenuItem> = null) {
+  constructor(
+    type: MenuItemType,
+    id: string,
+    elem: HTMLElement,
+    menubar: Menubar,
+    parent: TSU.Nullable<MenuItem> = null,
+  ) {
     this.id = id;
     this.type = type;
     this.elem = elem;
@@ -58,10 +61,10 @@ export class MenuItem {
   }
 }
 
-export class Menubar extends EventHub {
+export class Menubar extends TSU.Events.EventHub {
   private idCounter: number;
   rootElement: HTMLDivElement;
-  menuItems: StringMap<MenuItem>;
+  menuItems: TSU.StringMap<MenuItem>;
   rootMenus: MenuItem[];
 
   constructor(rootDiv: HTMLDivElement) {
@@ -92,7 +95,7 @@ export class Menubar extends EventHub {
     return id;
   }
 
-  protected toMenuItem(elem: HTMLElement): Nullable<MenuItem> {
+  protected toMenuItem(elem: HTMLElement): TSU.Nullable<MenuItem> {
     if (
       !elem.classList.contains("menuparent") &&
       !elem.classList.contains("menuitem") &&
@@ -102,7 +105,7 @@ export class Menubar extends EventHub {
     }
 
     const id = elem.getAttribute("menuId");
-    assert(id != null, "Menu item must have a menuId");
+    TSU.assert(id != null, "Menu item must have a menuId");
     if (!(id in this.menuItems)) {
       let out: MenuItem;
       const tag = elem.tagName.toLowerCase();
@@ -142,7 +145,7 @@ export class Menubar extends EventHub {
   protected ensureMenuItemView(menuItem: MenuItem, parent: HTMLElement): void {
     // todo
     if (menuItem.type == MenuItemType.SEPARATOR) {
-      menuItem.labelElem = createNode("hr", {
+      menuItem.labelElem = TSU.DOM.createNode("hr", {
         attrs: {
           class: "menuSeparator",
           menuId: menuItem.id,
@@ -155,7 +158,7 @@ export class Menubar extends EventHub {
       parent.appendChild(menuItem.labelElem);
     } else {
       const miClass = menuItem.parent == null ? "menuRootItemLabel" : "menuItemLabel";
-      menuItem.labelElem = createNode("div", {
+      menuItem.labelElem = TSU.DOM.createNode("div", {
         attrs: {
           class: miClass,
           menuId: menuItem.id,
@@ -169,7 +172,7 @@ export class Menubar extends EventHub {
       parent.appendChild(menuItem.labelElem);
 
       if (menuItem.children.length > 0) {
-        menuItem.childrenElem = createNode("div", {
+        menuItem.childrenElem = TSU.DOM.createNode("div", {
           attrs: {
             class: "menuItemContainer",
             menuId: menuItem.id,
@@ -183,7 +186,7 @@ export class Menubar extends EventHub {
     }
   }
 
-  protected eventToMenuItem(evt: Event): Nullable<MenuItem> {
+  protected eventToMenuItem(evt: Event): TSU.Nullable<MenuItem> {
     const target = evt.target as HTMLElement;
     const id = target.getAttribute("menuId");
     if (id) {
@@ -204,7 +207,7 @@ export class Menubar extends EventHub {
     console.log("Menu Item Exited: ", mi);
   }
 
-  private currentShowingMenuParent: Nullable<MenuItem> = null;
+  private currentShowingMenuParent: TSU.Nullable<MenuItem> = null;
   protected onMenuItemClicked(evt: Event): void {
     const mi = this.eventToMenuItem(evt);
     if (!mi) return;
@@ -212,7 +215,7 @@ export class Menubar extends EventHub {
     if (mi.type == MenuItemType.PARENT && mi.childrenElem) {
       // toggle child
       const show = !this.isMenuItemShowing(mi);
-      const evt = new TEvent(show ? EventTypes.MENU_WILL_OPEN : EventTypes.MENU_WILL_CLOSE, this, mi);
+      const evt = new TSU.Events.TEvent(show ? EventTypes.MENU_WILL_OPEN : EventTypes.MENU_WILL_CLOSE, this, mi);
       this.dispatchEvent(evt);
       if (evt.cancelled) {
         return;
@@ -226,11 +229,11 @@ export class Menubar extends EventHub {
         this.currentShowingMenuParent = this.currentShowingMenuParent.parent;
       }
       this.showMenuItem(mi, show);
-      this.dispatchEvent(new TEvent(show ? EventTypes.MENU_OPENED : EventTypes.MENU_CLOSED, this, mi));
+      this.dispatchEvent(new TSU.Events.TEvent(show ? EventTypes.MENU_OPENED : EventTypes.MENU_CLOSED, this, mi));
     } else if (mi.type == MenuItemType.SEPARATOR) {
       // Do nothing - for now
     } else {
-      const miEvt = new TEvent(EventTypes.MENU_ITEM_CLICKED, this, mi);
+      const miEvt = new TSU.Events.TEvent(EventTypes.MENU_ITEM_CLICKED, this, mi);
       this.dispatchEvent(miEvt);
       if (!miEvt.cancelled) {
         // hide it
@@ -259,7 +262,7 @@ export class Menubar extends EventHub {
 
   onDocumentClicked(evt: Event) {
     // see if clicked on a menu element
-    let target = evt.target as Nullable<HTMLElement>;
+    let target = evt.target as TSU.Nullable<HTMLElement>;
     while (target) {
       if (target.getAttribute("menuId")) {
         return;

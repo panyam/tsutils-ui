@@ -1,8 +1,6 @@
-import { getAttr, setAttr, createNode } from "../utils/dom";
-import { MAX_INT, Nullable, StringMap } from "../types";
+import * as TSU from "@panyam/tsutils";
 import { LayoutManager } from "./Layouts";
-import { Rect, Size, Insets } from "./core";
-import { EventHub } from "../comms/events";
+import { Rect, Size } from "./core";
 
 declare const ResizeObserver: any;
 
@@ -12,20 +10,20 @@ export interface ViewParams {
   childViewLoader?: ChildViewLoader;
 }
 
-export class View extends EventHub {
+export class View extends TSU.Events.EventHub {
   private static idCounter = 0;
   readonly viewId: string;
   readonly rootElement: Element;
   readonly config: any;
 
   // View in which this view can be found.
-  parentView: Nullable<View>;
+  parentView: TSU.Nullable<View>;
 
   // Child views of this View
   protected childViews: View[];
 
   // Bindings of views by key to a child (or descendant view)
-  protected viewBindings: StringMap<View>;
+  protected viewBindings: TSU.StringMap<View>;
 
   // Denotes if our root element is an svg element or not
   readonly isSVG: boolean;
@@ -41,7 +39,7 @@ export class View extends EventHub {
    * Views have layout managers that control how child views
    * are laid out.
    */
-  protected _layoutManager: Nullable<LayoutManager> = null;
+  protected _layoutManager: TSU.Nullable<LayoutManager> = null;
 
   /**
    * Will be true once position = absolute has been set for our styles.
@@ -58,11 +56,11 @@ export class View extends EventHub {
     this.rootElement = rootElement;
     this.isSVG = this.rootElement.namespaceURI == "http://www.w3.org/2000/svg";
     this.originalRootHTML = this.rootElement.innerHTML;
-    if (getAttr(this.rootElement, "viewId")) {
+    if (TSU.DOM.getAttr(this.rootElement, "viewId")) {
       throw new Error("Root element already assigned to a view");
     }
     this.viewId = "" + View.idCounter++;
-    setAttr(this.rootElement, "viewId", `${this.rootElement.tagName}${this.viewId}`);
+    TSU.DOM.setAttr(this.rootElement, "viewId", `${this.rootElement.tagName}${this.viewId}`);
     this.childViews = [];
     this.config = this.processConfigs((config = config || {}));
     this.childViewLoader = config.childViewLoader || View.defaultChildViewLoader;
@@ -81,11 +79,11 @@ export class View extends EventHub {
     this.resizeObserver.observe(this.rootElement);
   }
 
-  get layoutManager(): Nullable<LayoutManager> {
+  get layoutManager(): TSU.Nullable<LayoutManager> {
     return this._layoutManager;
   }
 
-  set layoutManager(layoutMgr: Nullable<LayoutManager>) {
+  set layoutManager(layoutMgr: TSU.Nullable<LayoutManager>) {
     this._layoutManager = layoutMgr;
   }
 
@@ -113,7 +111,7 @@ export class View extends EventHub {
     this.layoutManager?.layoutChildViews(this);
   }
 
-  find(target: string): Nullable<Element> {
+  find(target: string): TSU.Nullable<Element> {
     return this.rootElement.querySelector(target);
   }
 
@@ -126,7 +124,7 @@ export class View extends EventHub {
    * Returning null ensures that children are *not* replaced.
    * Useful for wrapping a html view as is.
    */
-  childHtml(): Nullable<string> {
+  childHtml(): TSU.Nullable<string> {
     return null;
   }
 
@@ -227,7 +225,7 @@ export class View extends EventHub {
    */
   isDescendantOf(another: View): boolean {
     if (another == this) return true;
-    let parent: Nullable<View> = this.parentView;
+    let parent: TSU.Nullable<View> = this.parentView;
     while (parent != null) {
       if (parent == another || parent.rootElement == another.rootElement) return true;
       parent = parent.parentView;
@@ -244,7 +242,7 @@ export class View extends EventHub {
    * Get and Set pref Sizes.
    */
   protected _prefSizeSet = false;
-  protected _prefSize: Nullable<Size> = null;
+  protected _prefSize: TSU.Nullable<Size> = null;
   get prefSize(): Size {
     let dim = this._prefSize;
     if (dim == null || !(this._prefSizeSet || this.isValid)) {
@@ -259,7 +257,7 @@ export class View extends EventHub {
     }
     return new Size(dim.width, dim.height);
   }
-  setPreferredSize(size: Nullable<Size>): this {
+  setPreferredSize(size: TSU.Nullable<Size>): this {
     this._prefSize = size;
     this._prefSizeSet = size != null;
     return this;
@@ -273,7 +271,7 @@ export class View extends EventHub {
    * Get and Set min Sizes.
    */
   protected _minSizeSet = false;
-  protected _minSize: Nullable<Size> = null;
+  protected _minSize: TSU.Nullable<Size> = null;
   get minSize(): Size {
     let dim = this._minSize;
     if (dim == null || !(this._minSizeSet || this.isValid)) {
@@ -288,7 +286,7 @@ export class View extends EventHub {
 
     return new Size(dim.width, dim.height);
   }
-  setMinimumSize(size: Nullable<Size>): this {
+  setMinimumSize(size: TSU.Nullable<Size>): this {
     this._minSize = size;
     this._minSizeSet = size != null;
     return this;
@@ -298,7 +296,7 @@ export class View extends EventHub {
    * Get and Set max Sizes.
    */
   protected _maxSizeSet = false;
-  protected _maxSize: Nullable<Size> = null;
+  protected _maxSize: TSU.Nullable<Size> = null;
   get maxSize(): Size {
     let dim = this._maxSize;
     if (dim == null || !(this._maxSizeSet || this.isValid)) {
@@ -308,14 +306,14 @@ export class View extends EventHub {
         if (this._maxSizeSet) {
           return new Size(this._maxSize!.width, this._maxSize!.height);
         } else {
-          return new Size(MAX_INT, MAX_INT);
+          return new Size(TSU.Constants.MAX_INT, TSU.Constants.MAX_INT);
         }
       }
       dim = this._maxSize;
     }
     return new Size(dim.width, dim.height);
   }
-  setMaximumSize(size: Nullable<Size>): this {
+  setMaximumSize(size: TSU.Nullable<Size>): this {
     this._maxSize = size;
     this._maxSizeSet = size != null;
     return this;
@@ -324,7 +322,7 @@ export class View extends EventHub {
   get isVisible(): boolean {
     // TODO - check visibility of root element
     if (this.isSVG) {
-      getAttr(this.rootElement, "visibility") != "hidden";
+      TSU.DOM.getAttr(this.rootElement, "visibility") != "hidden";
     }
 
     return true;
@@ -332,7 +330,7 @@ export class View extends EventHub {
 
   set isVisible(visible: boolean) {
     if (this.isSVG) {
-      setAttr(this.rootElement, "visibility", visible ? "visible" : "hidden");
+      TSU.DOM.setAttr(this.rootElement, "visibility", visible ? "visible" : "hidden");
     }
     this.parentView?.invalidateLayout();
   }

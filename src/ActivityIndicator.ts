@@ -1,4 +1,4 @@
-import { setCSS } from "../utils/dom";
+import * as TSU from "@panyam/tsutils";
 import { View, ViewParams } from "./View";
 
 interface AIViewParams extends ViewParams {
@@ -25,13 +25,13 @@ export class ActivityIndicator extends View {
 
   loadChildViews(): void {
     super.loadChildViews();
-    setCSS(this.rootElement, "position", "absolute");
-    setCSS(this.rootElement, "z-index", this.zIndex);
-    setCSS(this.rootElement, "left", "0px");
-    setCSS(this.rootElement, "top", "0px");
-    setCSS(this.rootElement, "bottom", "0px");
-    setCSS(this.rootElement, "right", "0px");
-    setCSS(
+    TSU.DOM.setCSS(this.rootElement, "position", "absolute");
+    TSU.DOM.setCSS(this.rootElement, "z-index", this.zIndex);
+    TSU.DOM.setCSS(this.rootElement, "left", "0px");
+    TSU.DOM.setCSS(this.rootElement, "top", "0px");
+    TSU.DOM.setCSS(this.rootElement, "bottom", "0px");
+    TSU.DOM.setCSS(this.rootElement, "right", "0px");
+    TSU.DOM.setCSS(
       this.rootElement,
       "background",
       this.bgColor + "\n" + "url('" + this.imageUrl + "')\n" + "50% 50%\n" + "no-repeat",

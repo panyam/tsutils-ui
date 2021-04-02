@@ -1,4 +1,4 @@
-import { MAX_INT, int, long, float } from "../types";
+import * as TSU from "@panyam/tsutils";
 
 export default class SizeRequirements {
   /**
@@ -66,9 +66,9 @@ export default class SizeRequirements {
     const total = new SizeRequirements();
     for (let i = 0; i < children.length; i++) {
       const req = children[i];
-      total.minimum = Math.min(total.minimum + req.minimum, MAX_INT);
-      total.preferred = Math.min(total.preferred + req.preferred, MAX_INT);
-      total.maximum = Math.min(total.maximum + req.maximum, MAX_INT);
+      total.minimum = Math.min(total.minimum + req.minimum, TSU.Constants.MAX_INT);
+      total.preferred = Math.min(total.preferred + req.preferred, TSU.Constants.MAX_INT);
+      total.maximum = Math.min(total.maximum + req.maximum, TSU.Constants.MAX_INT);
     }
     return total;
   }
@@ -105,9 +105,9 @@ export default class SizeRequirements {
       totalAscent.maximum = Math.max(ascent, totalAscent.maximum);
       totalDescent.maximum = Math.max(descent, totalDescent.maximum);
     }
-    const min = Math.min(totalAscent.minimum + totalDescent.minimum, MAX_INT);
-    const pref = Math.min(totalAscent.preferred + totalDescent.preferred, MAX_INT);
-    const max = Math.min(totalAscent.maximum + totalDescent.maximum, MAX_INT);
+    const min = Math.min(totalAscent.minimum + totalDescent.minimum, TSU.Constants.MAX_INT);
+    const pref = Math.min(totalAscent.preferred + totalDescent.preferred, TSU.Constants.MAX_INT);
+    const max = Math.min(totalAscent.maximum + totalDescent.maximum, TSU.Constants.MAX_INT);
     let alignment = 0.0;
     if (min > 0) {
       alignment = totalAscent.minimum / min;
@@ -149,7 +149,7 @@ export default class SizeRequirements {
    * @since 1.4
    */
   static calculateTiledPositions(
-    allocated: int,
+    allocated: number,
     total: SizeRequirements,
     children: SizeRequirements[],
     offsets: number[],
@@ -199,7 +199,7 @@ export default class SizeRequirements {
         const req = request[i];
         const play = factor * (req.preferred - req.minimum);
         spans[i] = req.preferred - play;
-        totalOffset = Math.min(totalOffset + spans[i], MAX_INT);
+        totalOffset = Math.min(totalOffset + spans[i], TSU.Constants.MAX_INT);
       }
     } else {
       // lay out with offsets decreasing from the end of the allocation
@@ -215,10 +215,10 @@ export default class SizeRequirements {
   }
 
   static expandedTile(
-    allocated: int,
-    min: long,
-    pref: long,
-    max: long,
+    allocated: number,
+    min: number,
+    pref: number,
+    max: number,
     request: SizeRequirements[],
     offsets: number[],
     spans: number[],
@@ -237,8 +237,8 @@ export default class SizeRequirements {
         offsets[i] = totalOffset;
         const req = request[i];
         const play = factor * (req.maximum - req.preferred);
-        spans[i] = Math.min(req.preferred + play, MAX_INT);
-        totalOffset = Math.min(totalOffset + spans[i], MAX_INT);
+        spans[i] = Math.min(req.preferred + play, TSU.Constants.MAX_INT);
+        totalOffset = Math.min(totalOffset + spans[i], TSU.Constants.MAX_INT);
       }
     } else {
       // lay out with offsets decreasing from the end of the allocation
@@ -246,7 +246,7 @@ export default class SizeRequirements {
       for (let i = 0; i < spans.length; i++) {
         const req = request[i];
         const play = factor * (req.maximum - req.preferred);
-        spans[i] = Math.min(req.preferred + play, MAX_INT);
+        spans[i] = Math.min(req.preferred + play, TSU.Constants.MAX_INT);
         offsets[i] = totalOffset - spans[i];
         totalOffset = Math.max(totalOffset - spans[i], 0);
       }
@@ -285,7 +285,7 @@ export default class SizeRequirements {
    * @since 1.4
    */
   static calculateAlignedPositions(
-    allocated: int,
+    allocated: number,
     total: SizeRequirements,
     children: SizeRequirements[],
     offsets: number[],
@@ -304,7 +304,7 @@ export default class SizeRequirements {
       const descent = Math.min(totalDescent, maxDescent);
 
       offsets[i] = totalAscent - ascent;
-      spans[i] = Math.min(ascent + descent, MAX_INT);
+      spans[i] = Math.min(ascent + descent, TSU.Constants.MAX_INT);
     }
   }
 }

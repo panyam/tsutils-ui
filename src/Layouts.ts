@@ -1,8 +1,8 @@
+import * as TSU from "@panyam/tsutils";
 import { Size } from "./core";
-import { MAX_INT, Nullable } from "../types";
 
 interface View {
-  parentView: Nullable<View>;
+  parentView: TSU.Nullable<View>;
 }
 
 /**
@@ -61,7 +61,7 @@ export interface LayoutManager {
    * Called to notify that layout info on the view is no longer
    * valid.
    */
-  invalidateLayout(parentView: Nullable<View>): void;
+  invalidateLayout(parentView: TSU.Nullable<View>): void;
 }
 
 export class DefaultLayoutManager implements LayoutManager {
@@ -90,7 +90,7 @@ export class DefaultLayoutManager implements LayoutManager {
    * Returns the max size of a view whose is layout is being managed by us.
    */
   maxLayoutSize(parentView: View): Size {
-    return new Size(MAX_INT, MAX_INT);
+    return new Size(TSU.Constants.MAX_INT, TSU.Constants.MAX_INT);
   }
 
   /**
@@ -129,11 +129,11 @@ export class DefaultLayoutManager implements LayoutManager {
     //
   }
 
-  invalidateLayout(parentView: Nullable<View>): void {
+  invalidateLayout(parentView: TSU.Nullable<View>): void {
     this.validateContainer(parentView);
   }
 
-  protected validateContainer(target: Nullable<View>): void {
+  protected validateContainer(target: TSU.Nullable<View>): void {
     // Nothing
   }
 }

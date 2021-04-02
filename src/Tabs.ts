@@ -1,5 +1,5 @@
+import * as TSU from "@panyam/tsutils";
 import { View } from "./View";
-import { TEvent } from "../comms/events";
 
 export const TabClickedEvent = "TabClickedEvent";
 export const TabSelectedEvent = "TabSelectedEvent";
@@ -47,7 +47,7 @@ export class TabView extends View {
     for (let i = 0; i < this.tabButtonElems.length; i++) {
       const btn = this.tabButtonElems[i];
       if (btn == target) {
-        if (this.dispatchEvent(new TEvent(TabClickedEvent, this, i))) {
+        if (this.dispatchEvent(new TSU.Events.TEvent(TabClickedEvent, this, i))) {
           this.selectTab(i);
         }
         return;
@@ -65,7 +65,7 @@ export class TabView extends View {
       this.selectedIndex = index;
       this.tabButtonElems[this.selectedIndex].classList.add(this.selectedTabClassName);
       this.tabContentElems[this.selectedIndex].style.display = "inline";
-      this.dispatchEvent(new TEvent(TabSelectedEvent, this, index));
+      this.dispatchEvent(new TSU.Events.TEvent(TabSelectedEvent, this, index));
     }
   }
 }

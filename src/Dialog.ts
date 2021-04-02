@@ -1,6 +1,5 @@
-import { Nullable } from "../types";
+import * as TSU from "@panyam/tsutils";
 import { View } from "./View";
-import { getAttr, createNode } from "../utils/dom";
 
 export class Dialog extends View {
   title: string;
@@ -10,7 +9,7 @@ export class Dialog extends View {
   buttonContainer: HTMLDivElement;
   resolveFunc: any;
   rejectFunc: any;
-  shouldClose: Nullable<(index: number, title: string) => boolean> = null;
+  shouldClose: TSU.Nullable<(index: number, title: string) => boolean> = null;
   private opened = false;
   private contentHtml: string;
 
@@ -31,7 +30,7 @@ export class Dialog extends View {
       "background-color: rgba(90, 90, 90, 0.4)",
       "z-index: " + (config.zIndex || 10),
     ];
-    const out = createNode("div", {
+    const out = TSU.DOM.createNode("div", {
       attrs: { style: styles.join("; ") },
     }) as HTMLDivElement;
     out.style.display = "none";
@@ -82,8 +81,8 @@ export class Dialog extends View {
 
   protected onButtonClicked(evt: Event): void {
     const target = evt.target as HTMLElement;
-    const index = parseInt(getAttr(target, "index") || "-1");
-    const title = getAttr(target, "title") || "";
+    const index = parseInt(TSU.DOM.getAttr(target, "index") || "-1");
+    const title = TSU.DOM.getAttr(target, "title") || "";
     this.close(index, title);
   }
 
@@ -106,7 +105,7 @@ export class Dialog extends View {
 
   addButton(title: string): this {
     const index = this.buttonContainer.querySelectorAll(".modalDialogButton").length;
-    const btn = createNode("button", {
+    const btn = TSU.DOM.createNode("button", {
       attrs: { index: index, title: title, class: "modalDialogButton" },
       text: title,
     }) as HTMLButtonElement;

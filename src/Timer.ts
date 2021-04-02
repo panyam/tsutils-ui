@@ -1,11 +1,11 @@
-import { Nullable } from "../types";
+import * as TSU from "@panyam/tsutils";
 
 type StepFunc = (ts: number) => void;
 
 export class Timer {
   private refreshInterval = 1000;
   private lastRefreshAt = 0;
-  private updateLoop: Nullable<number> = null;
+  private updateLoop: TSU.Nullable<number> = null;
   stepFunc: StepFunc;
 
   constructor(refreshInterval: number, stepFunc: StepFunc) {

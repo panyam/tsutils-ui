@@ -1,7 +1,6 @@
+import * as TSU from "@panyam/tsutils";
 import { View } from "./View";
 import { ScrollGroup } from "./Scrolling";
-import { StringMap } from "../types";
-import { collectStream, streamDict, mapStream } from "../utils/streams";
 
 // Here most of it is styling.
 export class CodeEditor extends View {
@@ -21,7 +20,7 @@ export class CodeEditor extends View {
     return 50;
   }
 
-  get lineNumbersStyle(): StringMap<any> {
+  get lineNumbersStyle(): TSU.StringMap<any> {
     return {
       "font-size": "13px",
       "line-height": "13px",
@@ -34,7 +33,7 @@ export class CodeEditor extends View {
     };
   }
 
-  get textAreaStyle(): StringMap<any> {
+  get textAreaStyle(): TSU.StringMap<any> {
     return {
       "font-size": "13px",
       "line-height": "13px",
@@ -70,13 +69,17 @@ export class CodeEditor extends View {
     };
 
     const toProp = (key: string, value: unknown): string => key + ": " + value + ";";
-    const lineNumStylesStr = collectStream(
-      mapStream(streamDict<string, string>(lineNumberStyles), (x: [string, string]) => toProp(x[0], x[1])),
+    const lineNumStylesStr = TSU.Streams.collectStream(
+      TSU.Streams.mapStream(TSU.Streams.streamDict<string, string>(lineNumberStyles), (x: [string, string]) =>
+        toProp(x[0], x[1]),
+      ),
       (prop, out) => prop + out,
       "",
     );
-    const textAreaStylesStr = collectStream(
-      mapStream(streamDict<string, string>(textAreaStyles), (x: [string, string]) => toProp(x[0], x[1])),
+    const textAreaStylesStr = TSU.Streams.collectStream(
+      TSU.Streams.mapStream(TSU.Streams.streamDict<string, string>(textAreaStyles), (x: [string, string]) =>
+        toProp(x[0], x[1]),
+      ),
       (prop, out) => prop + out,
       "",
     );
