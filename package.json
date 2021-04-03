@@ -44,13 +44,7 @@
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "@panyam/tsutils": "file:../tsutils",
-    "@types/handlebars": "^4.1.0",
-    "@types/node": "^14.14.26",
-    "@typescript-eslint/parser": "^4.15.0",
-    "axios": "^0.21.1",
-    "js-yaml": "^4.0.0",
-    "request": "^2.88.2"
+    "@panyam/tsutils": "file:../tsutils"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
