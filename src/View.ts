@@ -15,7 +15,7 @@ export class View {
   readonly viewId: string;
   readonly rootElement: Element;
   readonly config: any;
-  eventHub: TSU.Events.EventHub;
+  eventHub = new TSU.Events.EventHub();
 
   // View in which this view can be found.
   parentView: TSU.Nullable<View>;
