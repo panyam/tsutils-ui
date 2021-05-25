@@ -10,11 +10,12 @@ export interface ViewParams {
   childViewLoader?: ChildViewLoader;
 }
 
-export class View extends TSU.Events.EventHub {
+export class View {
   private static idCounter = 0;
   readonly viewId: string;
   readonly rootElement: Element;
   readonly config: any;
+  eventHub: TSU.Events.EventHub;
 
   // View in which this view can be found.
   parentView: TSU.Nullable<View>;
@@ -51,7 +52,6 @@ export class View extends TSU.Events.EventHub {
   private resizeObserver: any;
 
   constructor(rootElement: Element, config?: any) {
-    super();
     // Save and Validate rootElement before doing anything else
     this.rootElement = rootElement;
     this.isSVG = this.rootElement.namespaceURI == "http://www.w3.org/2000/svg";
