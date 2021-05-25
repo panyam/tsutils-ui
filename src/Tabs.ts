@@ -47,7 +47,7 @@ export class TabView extends View {
     for (let i = 0; i < this.tabButtonElems.length; i++) {
       const btn = this.tabButtonElems[i];
       if (btn == target) {
-        if (this.eventHub?.dispatchEvent(new TSU.Events.TEvent(TabClickedEvent, this, i))) {
+        if (this.eventHub?.emit(TabClickedEvent, this, i)) {
           this.selectTab(i);
         }
         return;
@@ -65,7 +65,7 @@ export class TabView extends View {
       this.selectedIndex = index;
       this.tabButtonElems[this.selectedIndex].classList.add(this.selectedTabClassName);
       this.tabContentElems[this.selectedIndex].style.display = "inline";
-      this.eventHub?.dispatchEvent(new TSU.Events.TEvent(TabSelectedEvent, this, index));
+      this.eventHub?.emit(TabSelectedEvent, this, index);
     }
   }
 }

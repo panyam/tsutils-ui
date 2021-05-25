@@ -229,7 +229,7 @@ export class Menubar extends TSU.Events.EventHub {
         this.currentShowingMenuParent = this.currentShowingMenuParent.parent;
       }
       this.showMenuItem(mi, show);
-      this.dispatchEvent(new TSU.Events.TEvent(show ? EventTypes.MENU_OPENED : EventTypes.MENU_CLOSED, this, mi));
+      this.emit(show ? EventTypes.MENU_OPENED : EventTypes.MENU_CLOSED, this, mi);
     } else if (mi.type == MenuItemType.SEPARATOR) {
       // Do nothing - for now
     } else {
