@@ -1,6 +1,6 @@
 {
   "name": "@panyam/tsutils-ui",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "author": "Sriram Panyam",
   "description": "Helper utilities to deal with ui and layouts",
   "homepage": "https://github.com/panyam/tsutils-ui#readme",
