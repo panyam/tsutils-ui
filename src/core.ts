@@ -1,10 +1,10 @@
-export class Point {
-  x = 0;
-  y = 0;
-  constructor(x = 0, y = 0) {
-    this.x = x;
-    this.y = y;
-  }
+export interface Coords {
+  x: number;
+  y: number;
+}
+
+export class Point implements Coords {
+  constructor(public x = 0, public y = 0) {}
 }
 
 export class Size {
@@ -17,27 +17,16 @@ export class Size {
 }
 
 export class Insets {
-  left: number;
-  top: number;
-  right: number;
-  bottom: number;
-  constructor(left = 0, top = 0, right = 0, bottom = 0) {
-    this.left = left;
-    this.top = top;
-    this.right = right;
-    this.bottom = bottom;
-  }
+  constructor(public left = 0, public top = 0, public right = 0, public bottom = 0) {}
 }
 
-export class Rect {
-  x = 0;
-  y = 0;
-  width = 0;
-  height = 0;
-  constructor(x = 0, y = 0, w = 0, h = 0) {
-    this.x = x;
-    this.y = y;
-    this.width = w;
-    this.height = h;
-  }
+export interface BBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export class Rect implements BBox {
+  constructor(public x = 0, public y = 0, public width = 0, public height = 0) {}
 }
