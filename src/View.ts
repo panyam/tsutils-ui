@@ -93,10 +93,11 @@ export class View {
     return this._eventHub;
   }
   set eventHub(hub: TSU.Events.EventHub | null) {
+    const oldHub = this._eventHub;
     this._eventHub = hub;
-    this.eventHubChanged();
+    this.eventHubChanged(oldHub);
   }
-  protected eventHubChanged(): void {
+  protected eventHubChanged(hub: TSU.Events.EventHub | null): void {
     // Do nothing
   }
 
