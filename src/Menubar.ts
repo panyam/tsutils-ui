@@ -61,7 +61,7 @@ export class MenuItem {
   }
 }
 
-export class Menubar {
+export class Menubar extends TSU.Events.EventEmitter {
   private idCounter: number;
   rootElement: HTMLDivElement;
   menuItems: TSU.StringMap<MenuItem>;
@@ -69,6 +69,7 @@ export class Menubar {
   debugMouseEvents = false;
 
   constructor(rootDiv: HTMLDivElement, configs?: any) {
+    super();
     configs = configs || {};
     this.debugMouseEvents = "debugMouseEvents" in configs ? configs.debugMouseEvents : false;
     this.rootElement = rootDiv;
@@ -86,18 +87,6 @@ export class Menubar {
     document.addEventListener("click", (evt) => {
       this.onDocumentClicked(evt);
     });
-  }
-
-  private _eventHub: TSU.Events.EventHub | null;
-  get eventHub(): TSU.Events.EventHub | null {
-    return this._eventHub;
-  }
-  set eventHub(hub: TSU.Events.EventHub | null) {
-    this._eventHub = hub;
-    this.eventHubChanged();
-  }
-  protected eventHubChanged(): void {
-    // Do nothing
   }
 
   protected assignMenuId(elem: HTMLElement): string {

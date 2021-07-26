@@ -10,7 +10,7 @@ export interface ViewParams {
   childViewLoader?: ChildViewLoader;
 }
 
-export class View {
+export class View extends TSU.Events.EventEmitter {
   private static idCounter = 0;
   readonly viewId: string;
   readonly rootElement: Element;
@@ -86,19 +86,6 @@ export class View {
 
   set layoutManager(layoutMgr: TSU.Nullable<LayoutManager>) {
     this._layoutManager = layoutMgr;
-  }
-
-  private _eventHub: TSU.Events.EventHub | null;
-  get eventHub(): TSU.Events.EventHub | null {
-    return this._eventHub;
-  }
-  set eventHub(hub: TSU.Events.EventHub | null) {
-    const oldHub = this._eventHub;
-    this._eventHub = hub;
-    this.eventHubChanged(oldHub);
-  }
-  protected eventHubChanged(hub: TSU.Events.EventHub | null): void {
-    // Do nothing
   }
 
   // An option for child classes to extract any other info
