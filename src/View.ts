@@ -15,7 +15,6 @@ export class View {
   readonly viewId: string;
   readonly rootElement: Element;
   readonly config: any;
-  private _eventHub: TSU.Events.EventHub | null;
 
   // View in which this view can be found.
   parentView: TSU.Nullable<View>;
@@ -89,15 +88,14 @@ export class View {
     this._layoutManager = layoutMgr;
   }
 
+  private _eventHub: TSU.Events.EventHub | null;
   get eventHub(): TSU.Events.EventHub | null {
     return this._eventHub;
   }
-
   set eventHub(hub: TSU.Events.EventHub | null) {
     this._eventHub = hub;
     this.eventHubChanged();
   }
-
   protected eventHubChanged(): void {
     // Do nothing
   }

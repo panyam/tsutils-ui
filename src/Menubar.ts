@@ -61,14 +61,15 @@ export class MenuItem {
   }
 }
 
-export class Menubar extends TSU.Events.EventHub {
+export class Menubar {
   private idCounter: number;
   rootElement: HTMLDivElement;
   menuItems: TSU.StringMap<MenuItem>;
   rootMenus: MenuItem[];
+  debugMouseEvents = false;
 
-  constructor(rootDiv: HTMLDivElement) {
-    super();
+  constructor(rootDiv: HTMLDivElement, configs: any) {
+    this.debugMouseEvents = "debugMouseEvents" in configs ? configs.debugMouseEvents : false;
     this.rootElement = rootDiv;
     this.idCounter = 0;
     this.rootMenus = [];
@@ -84,6 +85,18 @@ export class Menubar extends TSU.Events.EventHub {
     document.addEventListener("click", (evt) => {
       this.onDocumentClicked(evt);
     });
+  }
+
+  private _eventHub: TSU.Events.EventHub | null;
+  get eventHub(): TSU.Events.EventHub | null {
+    return this._eventHub;
+  }
+  set eventHub(hub: TSU.Events.EventHub | null) {
+    this._eventHub = hub;
+    this.eventHubChanged();
+  }
+  protected eventHubChanged(): void {
+    // Do nothing
   }
 
   protected assignMenuId(elem: HTMLElement): string {
@@ -198,13 +211,13 @@ export class Menubar extends TSU.Events.EventHub {
   protected onMenuItemEntered(evt: Event): void {
     const mi = this.eventToMenuItem(evt);
     if (!mi) return;
-    console.log("Menu Item Entered: ", mi);
+    if (this.debugMouseEvents) console.log("Menu Item Entered: ", mi);
   }
 
   protected onMenuItemExited(evt: Event): void {
     const mi = this.eventToMenuItem(evt);
     if (!mi) return;
-    console.log("Menu Item Exited: ", mi);
+    if (this.debugMouseEvents) console.log("Menu Item Exited: ", mi);
   }
 
   private currentShowingMenuParent: TSU.Nullable<MenuItem> = null;
@@ -216,7 +229,7 @@ export class Menubar extends TSU.Events.EventHub {
       // toggle child
       const show = !this.isMenuItemShowing(mi);
       const evt = new TSU.Events.TEvent(show ? EventTypes.MENU_WILL_OPEN : EventTypes.MENU_WILL_CLOSE, this, mi);
-      this.dispatchEvent(evt);
+      this.eventHub?.dispatchEvent(evt);
       if (evt.cancelled) {
         return;
       }
@@ -229,12 +242,12 @@ export class Menubar extends TSU.Events.EventHub {
         this.currentShowingMenuParent = this.currentShowingMenuParent.parent;
       }
       this.showMenuItem(mi, show);
-      this.emit(show ? EventTypes.MENU_OPENED : EventTypes.MENU_CLOSED, this, mi);
+      this.eventHub?.emit(show ? EventTypes.MENU_OPENED : EventTypes.MENU_CLOSED, this, mi);
     } else if (mi.type == MenuItemType.SEPARATOR) {
       // Do nothing - for now
     } else {
       const miEvt = new TSU.Events.TEvent(EventTypes.MENU_ITEM_CLICKED, this, mi);
-      this.dispatchEvent(miEvt);
+      this.eventHub?.dispatchEvent(miEvt);
       if (!miEvt.cancelled) {
         // hide it
         this.hideMenus();
@@ -269,7 +282,7 @@ export class Menubar extends TSU.Events.EventHub {
       }
       target = target.parentElement;
     }
-    console.log("Clicked on Document:", evt);
+    if (this.debugMouseEvents) console.log("Clicked on Document:", evt);
     this.hideMenus();
   }
 
