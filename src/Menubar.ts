@@ -68,7 +68,8 @@ export class Menubar {
   rootMenus: MenuItem[];
   debugMouseEvents = false;
 
-  constructor(rootDiv: HTMLDivElement, configs: any) {
+  constructor(rootDiv: HTMLDivElement, configs?: any) {
+    configs = configs || {};
     this.debugMouseEvents = "debugMouseEvents" in configs ? configs.debugMouseEvents : false;
     this.rootElement = rootDiv;
     this.idCounter = 0;
