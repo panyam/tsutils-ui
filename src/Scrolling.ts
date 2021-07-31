@@ -173,7 +173,7 @@ export class ScrollGroup {
   private offsetDeltaThreshold = 5;
   private eventDeltaThreshold = 50;
 
-  constructor() {
+  constructor(public debugLogs = false) {
     this.scrollTimer = new Timer(500, this.onTimer.bind(this));
   }
 
@@ -260,7 +260,7 @@ export class ScrollGroup {
     if (this.leadScrollable == null) {
       // scrolling has not begun yet so set it as the "root" scroller
       this.leadScrollable = scrollable;
-      console.log("Scrolling started with: ", scrollable);
+      if (this.debugLogs) console.log("Scrolling started with: ", scrollable);
       this.scrollTimer.start();
     } else {
       // What if there was an already active scrollable?
@@ -282,7 +282,7 @@ export class ScrollGroup {
   }
 
   protected scrollingFinished(ts: number): void {
-    console.log("Scrolling Finished at: ", ts);
+    if (this.debugLogs) console.log("Scrolling Finished at: ", ts);
     // TODO - See if this can have a jerking effect
     this.syncFollowersToLeader();
     this.leadScrollable = null;
