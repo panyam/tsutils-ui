@@ -1,5 +1,4 @@
 import * as TSU from "@panyam/tsutils";
-import { Size } from "./core";
 
 interface View {
   parentView: TSU.Nullable<View>;
@@ -22,17 +21,17 @@ export interface LayoutManager {
   /**
    * Returns the min size of a view whose is layout is being managed by us.
    */
-  minLayoutSize(parentView: View): Size;
+  minLayoutSize(parentView: View): TSU.Geom.Size;
 
   /**
    * Returns the max size of a view whose is layout is being managed by us.
    */
-  maxLayoutSize(parentView: View): Size;
+  maxLayoutSize(parentView: View): TSU.Geom.Size;
 
   /**
    * Returns the pref size of a view whose is layout is being managed by us.
    */
-  prefLayoutSize(parentView: View): Size;
+  prefLayoutSize(parentView: View): TSU.Geom.Size;
 
   /**
    * Returns the alignment along the x axis.  This specifies how
@@ -82,22 +81,22 @@ export class DefaultLayoutManager implements LayoutManager {
   /**
    * Returns the min size of a view whose is layout is being managed by us.
    */
-  minLayoutSize(parentView: View): Size {
-    return new Size();
+  minLayoutSize(parentView: View): TSU.Geom.Size {
+    return new TSU.Geom.Size();
   }
 
   /**
    * Returns the max size of a view whose is layout is being managed by us.
    */
-  maxLayoutSize(parentView: View): Size {
-    return new Size(TSU.Constants.MAX_INT, TSU.Constants.MAX_INT);
+  maxLayoutSize(parentView: View): TSU.Geom.Size {
+    return new TSU.Geom.Size(TSU.Constants.MAX_INT, TSU.Constants.MAX_INT);
   }
 
   /**
    * Returns the pref size of a view whose is layout is being managed by us.
    */
-  prefLayoutSize(parentView: View): Size {
-    return new Size();
+  prefLayoutSize(parentView: View): TSU.Geom.Size {
+    return new TSU.Geom.Size();
   }
 
   /**

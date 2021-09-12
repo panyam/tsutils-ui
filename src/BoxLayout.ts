@@ -1,5 +1,4 @@
 import * as TSU from "@panyam/tsutils";
-import { Size } from "./core";
 import { View } from "./View";
 import { DefaultLayoutManager } from "./Layouts";
 import SizeRequirements from "./SizeRequirements";
@@ -52,20 +51,20 @@ export class BoxLayout extends DefaultLayoutManager {
   /**
    * Returns the min size of a view whose is layout is being managed by us.
    */
-  minLayoutSize(target: View): Size {
+  minLayoutSize(target: View): TSU.Geom.Size {
     this.validateContainer(target);
     this.validateRequests();
-    const size = new Size(this.xTotal.minimum, this.yTotal.minimum);
+    const size = new TSU.Geom.Size(this.xTotal.minimum, this.yTotal.minimum);
 
     size.width = Math.min(size.width, TSU.Constants.MAX_INT);
     size.height = Math.min(size.height, TSU.Constants.MAX_INT);
     return size;
   }
 
-  maxLayoutSize(target: View): Size {
+  maxLayoutSize(target: View): TSU.Geom.Size {
     this.validateContainer(target);
     this.validateRequests();
-    const size = new Size(this.xTotal.maximum, this.yTotal.maximum);
+    const size = new TSU.Geom.Size(this.xTotal.maximum, this.yTotal.maximum);
 
     size.width = Math.min(size.width, TSU.Constants.MAX_INT);
     size.height = Math.min(size.height, TSU.Constants.MAX_INT);
@@ -75,10 +74,10 @@ export class BoxLayout extends DefaultLayoutManager {
   /**
    * Returns the pref size of a view whose layout is being managed by us.
    */
-  prefLayoutSize(target: View): Size {
+  prefLayoutSize(target: View): TSU.Geom.Size {
     this.validateContainer(target);
     this.validateRequests();
-    const size = new Size(this.xTotal.preferred, this.yTotal.preferred);
+    const size = new TSU.Geom.Size(this.xTotal.preferred, this.yTotal.preferred);
 
     size.width = Math.min(size.width, TSU.Constants.MAX_INT);
     size.height = Math.min(size.height, TSU.Constants.MAX_INT);

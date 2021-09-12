@@ -1,6 +1,5 @@
 import * as TSU from "@panyam/tsutils";
 import { LayoutManager } from "./Layouts";
-import { Rect, Size } from "./core";
 
 declare const ResizeObserver: any;
 
@@ -241,11 +240,11 @@ export class View extends TSU.Events.EventEmitter {
   }
 
   /**
-   * Get and Set pref Sizes.
+   * Get and Set pref TSU.Geom.Sizes.
    */
   protected _prefSizeSet = false;
-  protected _prefSize: TSU.Nullable<Size> = null;
-  get prefSize(): Size {
+  protected _prefSize: TSU.Nullable<TSU.Geom.Size> = null;
+  get prefSize(): TSU.Geom.Size {
     let dim = this._prefSize;
     if (dim == null || !(this._prefSizeSet || this.isValid)) {
       if (this.layoutManager != null) {
@@ -257,9 +256,9 @@ export class View extends TSU.Events.EventEmitter {
       }
       dim = this._prefSize;
     }
-    return new Size(dim.width, dim.height);
+    return new TSU.Geom.Size(dim?.width, dim?.height);
   }
-  setPreferredSize(size: TSU.Nullable<Size>): this {
+  setPreferredSize(size: TSU.Nullable<TSU.Geom.Size>): this {
     this._prefSize = size;
     this._prefSizeSet = size != null;
     return this;
@@ -270,52 +269,52 @@ export class View extends TSU.Events.EventEmitter {
   }
 
   /**
-   * Get and Set min Sizes.
+   * Get and Set min TSU.Geom.Sizes.
    */
   protected _minSizeSet = false;
-  protected _minSize: TSU.Nullable<Size> = null;
-  get minSize(): Size {
+  protected _minSize: TSU.Nullable<TSU.Geom.Size> = null;
+  get minSize(): TSU.Geom.Size {
     let dim = this._minSize;
     if (dim == null || !(this._minSizeSet || this.isValid)) {
       if (this.layoutManager != null) {
         this._minSize = this.layoutManager.minLayoutSize(this);
       } else {
         // super.minSize
-        return new Size(this.width, this.height);
+        return new TSU.Geom.Size(this.width, this.height);
       }
       dim = this._minSize;
     }
 
-    return new Size(dim.width, dim.height);
+    return new TSU.Geom.Size(dim?.width, dim?.height);
   }
-  setMinimumSize(size: TSU.Nullable<Size>): this {
+  setMinimumSize(size: TSU.Nullable<TSU.Geom.Size>): this {
     this._minSize = size;
     this._minSizeSet = size != null;
     return this;
   }
 
   /**
-   * Get and Set max Sizes.
+   * Get and Set max TSU.Geom.Sizes.
    */
   protected _maxSizeSet = false;
-  protected _maxSize: TSU.Nullable<Size> = null;
-  get maxSize(): Size {
+  protected _maxSize: TSU.Nullable<TSU.Geom.Size> = null;
+  get maxSize(): TSU.Geom.Size {
     let dim = this._maxSize;
     if (dim == null || !(this._maxSizeSet || this.isValid)) {
       if (this.layoutManager != null) {
         this._maxSize = this.layoutManager.maxLayoutSize(this);
       } else {
         if (this._maxSizeSet) {
-          return new Size(this._maxSize!.width, this._maxSize!.height);
+          return new TSU.Geom.Size(this._maxSize!.width, this._maxSize!.height);
         } else {
-          return new Size(TSU.Constants.MAX_INT, TSU.Constants.MAX_INT);
+          return new TSU.Geom.Size(TSU.Constants.MAX_INT, TSU.Constants.MAX_INT);
         }
       }
       dim = this._maxSize;
     }
-    return new Size(dim.width, dim.height);
+    return new TSU.Geom.Size(dim?.width || 0, dim?.height || 0);
   }
-  setMaximumSize(size: TSU.Nullable<Size>): this {
+  setMaximumSize(size: TSU.Nullable<TSU.Geom.Size>): this {
     this._maxSize = size;
     this._maxSizeSet = size != null;
     return this;
@@ -387,12 +386,12 @@ export class View extends TSU.Events.EventEmitter {
     }
   }
 
-  get size(): Size {
-    return new Size(this.width, this.height);
+  get size(): TSU.Geom.Size {
+    return new TSU.Geom.Size(this.width, this.height);
   }
 
-  get bounds(): Rect {
-    return new Rect(this.x, this.y, this.width, this.height);
+  get bounds(): TSU.Geom.Rect {
+    return new TSU.Geom.Rect(this.x, this.y, this.width, this.height);
   }
 
   setLocation(x: number, y: number): this {

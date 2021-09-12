@@ -33,7 +33,7 @@ export class Timer {
         if (timestamp - this.lastRefreshAt >= this.refreshInterval) {
           try {
             this.stepFunc(timestamp);
-          } catch (err) {
+          } catch (err: any) {
             console.log("Error from Timer Handler: ", err);
             alert("Error from Timer Handler: " + err.message);
             return;

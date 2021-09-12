@@ -1,5 +1,5 @@
+import * as TSU from "@panyam/tsutils";
 import { View } from "./View";
-import { Size } from "./core";
 import { DefaultLayoutManager } from "./Layouts";
 
 export enum FlowAlignType {
@@ -85,9 +85,9 @@ export class FlowLayout extends DefaultLayoutManager {
   /**
    * Returns the min size of a view whose is layout is being managed by us.
    */
-  minLayoutSize(parentView: View): Size {
+  minLayoutSize(parentView: View): TSU.Geom.Size {
     const useBaseline = this.alignOnBaseline;
-    const dim = new Size(0, 0);
+    const dim = new TSU.Geom.Size(0, 0);
     const nmembers = parentView.childViewCount;
     let maxAscent = 0;
     let maxDescent = 0;
@@ -126,8 +126,8 @@ export class FlowLayout extends DefaultLayoutManager {
   /**
    * Returns the pref size of a view whose layout is being managed by us.
    */
-  prefLayoutSize(parentView: View): Size {
-    const dim = new Size();
+  prefLayoutSize(parentView: View): TSU.Geom.Size {
+    const dim = new TSU.Geom.Size();
     const nmembers = parentView.childViewCount;
     let firstVisibleComponent = true;
     const useBaseline = this.alignOnBaseline;

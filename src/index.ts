@@ -11,4 +11,3 @@ export * from "./Scrolling";
 export * from "./Tabs";
 export * from "./Timer";
 export * from "./View";
-export * from "./core";

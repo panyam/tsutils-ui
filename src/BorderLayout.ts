@@ -1,5 +1,4 @@
 import * as TSU from "@panyam/tsutils";
-import { Size } from "./core";
 import { View } from "./View";
 import { DefaultLayoutManager } from "./Layouts";
 
@@ -259,8 +258,8 @@ export class BorderLayout extends DefaultLayoutManager {
   /**
    * Returns the min size of a view whose is layout is being managed by us.
    */
-  minLayoutSize(parentView: View): Size {
-    const dim = new Size(0, 0);
+  minLayoutSize(parentView: View): TSU.Geom.Size {
+    const dim = new TSU.Geom.Size(0, 0);
 
     const ltr = this.leftToRight;
     let c: TSU.Nullable<View> = null;
@@ -297,8 +296,8 @@ export class BorderLayout extends DefaultLayoutManager {
   /**
    * Returns the pref size of a view whose layout is being managed by us.
    */
-  prefLayoutSize(parentView: View): Size {
-    const dim = new Size(0, 0);
+  prefLayoutSize(parentView: View): TSU.Geom.Size {
+    const dim = new TSU.Geom.Size(0, 0);
 
     const ltr = this.leftToRight;
     let c: TSU.Nullable<View> = null;
