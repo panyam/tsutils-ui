@@ -69,7 +69,7 @@
     "handlebars-loader": "^1.7.1",
     "jest": "^27.1.1",
     "jest-each": "^27.1.1",
-    "jest-mock": "^27.1.1",
+    "jest-mock": "^29.0.2",
     "jsdom": "^17.0.0",
     "json5": "^2.2.0",
     "pre-commit": "^1.2.2",
