@@ -1,17 +1,16 @@
 import * as TSU from "@panyam/tsutils";
 import { View } from "./View";
-import { ScrollGroup } from "./Scrolling";
 
 // Here most of it is styling.
 export class CodeEditor extends View {
-  private _scrollGroup: ScrollGroup;
+  private _scrollGroup: TSU.Scrolling.ScrollGroup;
   textarea: HTMLTextAreaElement;
   lineNumbersDiv: HTMLDivElement;
   lineCount = 0;
 
-  get scrollGroup(): ScrollGroup {
+  get scrollGroup(): TSU.Scrolling.ScrollGroup {
     if (!this._scrollGroup) {
-      this._scrollGroup = new ScrollGroup();
+      this._scrollGroup = new TSU.Scrolling.ScrollGroup();
     }
     return this._scrollGroup;
   }
